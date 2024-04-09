@@ -12,7 +12,7 @@ let lastRunDate = null;
 
 client.once('ready', () => {
     console.log('Bot is ready!');
-    setInterval(checkAndRun, 60 * 1000); // Check every minute
+    setInterval(checkAndRun, 10 * 1000); // Check every 10 secs
 });
 
 client.login(BOT_TOKEN);

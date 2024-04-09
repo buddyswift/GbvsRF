@@ -8,23 +8,23 @@ const SUPABASE_KEY = process.env.SUPABASE_KEY;
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages] });
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY, { persistSession: false });
 
-let lastRunTime = 0; // Store the timestamp of the last run
+let lastRunDate = null;
 
 client.once('ready', () => {
     console.log('Bot is ready!');
-    setInterval(checkAndRun, 15 * 60 * 1000); // Check and run every 15 minutes
+    setInterval(checkAndRun, 60 * 1000); // Check every minute
 });
 
 client.login(BOT_TOKEN);
 
 async function checkAndRun() {
-    const now = Date.now();
-    if (now - lastRunTime > 10 * 60 * 1000) { // 10 minutes * 60 seconds * 1000 milliseconds
-        console.log("More than 10 minutes passed since last run, executing fetchAndPost...");
-        lastRunTime = now; // Update last run time
+    const now = new Date();
+    const ninePM = new Date(now);
+    ninePM.setUTCHours(21, 0, 0, 0); // Set to 9pm UTC
+
+    if (now > ninePM && (!lastRunDate || lastRunDate.getDate() !== now.getDate())) {
+        lastRunDate = now;
         await fetchAndPost();
-    } else {
-        console.log("Less than 10 minutes passed since last run, skipping this execution.");
     }
 }
 

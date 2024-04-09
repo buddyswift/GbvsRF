@@ -1,31 +1,32 @@
-// Import necessary modules
 const { Client, GatewayIntentBits, EmbedBuilder } = require('discord.js');
 const { createClient } = require('@supabase/supabase-js');
 
-// Retrieve environment variables from .env file
 const BOT_TOKEN = process.env.BOT_TOKEN;
 const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_KEY = process.env.SUPABASE_KEY;
 
-// Create a new Discord client instance
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages] });
-
-// Create a Supabase client instance
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY, { persistSession: false });
 
-// Event handler for when the bot is ready
-client.once('ready', async () => {
+let lastRunTime = 0; // Store the timestamp of the last run
+
+client.once('ready', () => {
     console.log('Bot is ready!');
-
-    // Fetch and post bounties
-    await fetchAndPost();
-
-    // End the client session after the task is done
-    client.destroy();
+    setInterval(checkAndRun, 15 * 60 * 1000); // Check and run every 15 minutes
 });
 
-// Log in to Discord using the bot token
 client.login(BOT_TOKEN);
+
+async function checkAndRun() {
+    const now = Date.now();
+    if (now - lastRunTime > 10 * 60 * 1000) { // 10 minutes * 60 seconds * 1000 milliseconds
+        console.log("More than 10 minutes passed since last run, executing fetchAndPost...");
+        lastRunTime = now; // Update last run time
+        await fetchAndPost();
+    } else {
+        console.log("Less than 10 minutes passed since last run, skipping this execution.");
+    }
+}
 
 // List of skills
 const skills = [

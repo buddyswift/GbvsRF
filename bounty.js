@@ -80,7 +80,7 @@ async function fetchAndPost() {
         const bounty = bountyList[randomIndex];
 
         // Find the Discord channel to post the bounty in
-        const channel = client.channels.cache.find(ch => ch.name === 'gbrf-bot-test');
+        const channel = client.channels.cache.find(ch => ch.name === 'war-bot-test');
         if (!channel) {
             console.log('Channel not found.');
             return;

@@ -75,7 +75,7 @@ async function fetchAndPost() {
         const randomIndex = Math.floor(Math.random() * bountyList.length);
         const bounty = bountyList[randomIndex];
 
-        const channel = client.channels.cache.find(ch => ch.name === 'war-bot-test');
+        const channel = client.channels.cache.find(ch => ch.name === 'daily-bounty');
         if (!channel) {
             console.log('Channel not found.');
             return;

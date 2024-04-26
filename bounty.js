@@ -85,7 +85,7 @@ async function fetchAndPost() {
             .setTitle(`**${bounty['Title']}**`)
             .addFields(
                 { name: `**🎯 Name**`, value: `*${bounty['Title']}*` },
-                { name: `**💰 Reward**`, value: `1500 points` },
+                { name: `**💰 Reward**`, value: `3000 points` },
                 { name: `**📝 Description**`, value: `*${bounty['Short Description']}*` },
                 { name: `**🔑 Password**`, value: generatePassword() }
             );
